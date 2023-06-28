@@ -1,0 +1,62 @@
+ private static final String UPPERCASE_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String LOWERCASE_LETTERS = "abcdefghijklmnopqrstuvwxyz";
+    private static final String NUMBERS = "0123456789";
+    private static final String SYMBOLS = "!@#$%^&*()-_=+[]{}\\|;:'\",<.>/?";
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Prompt the user to enter the desired length of the password
+        System.out.print("Enter the desired length of the password: ");
+        int length = scanner.nextInt();
+
+        // Prompt the user to choose the character types to include in the password
+        System.out.println("Choose the character types to include in the password:");
+        System.out.println("1. Uppercase letters");
+        System.out.println("2. Lowercase letters");
+        System.out.println("3. Numbers");
+        System.out.println("4. Symbols");
+        System.out.print("Enter the corresponding numbers (e.g., 1234): ");
+        String types = scanner.next();
+
+        // Generate the password
+        String password = generatePassword(length, types);
+
+        // Display the generated password
+        System.out.println("Generated password: " + password);
+    }
+
+    private static String generatePassword(int length, String types) {
+        StringBuilder password = new StringBuilder();
+        SecureRandom random = new SecureRandom();
+
+        // Check for invalid inputs
+        if (length < 1 || types.isEmpty()) {
+            System.out.println("Invalid input. Please enter a length greater than 0 and select at least one character type.");
+            System.exit(1);
+        }
+
+        // Build the character set based on the selected types
+        String characters = "";
+        if (types.contains("1")) {
+            characters += UPPERCASE_LETTERS;
+        }
+        if (types.contains("2")) {
+            characters += LOWERCASE_LETTERS;
+        }
+        if (types.contains("3")) {
+            characters += NUMBERS;
+        }
+        if (types.contains("4")) {
+            characters += SYMBOLS;
+        }
+
+        // Generate the password
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(characters.length());
+            password.append(characters.charAt(randomIndex));
+        }
+
+        return password.toString();
+    }
+}
